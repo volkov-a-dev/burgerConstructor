@@ -11,7 +11,6 @@ const button = props => (
             onClick={props.clicked}
             >{props.children}</button>
     </Aux>
-  
 );
 
 export default button;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { Link } from "react-router-dom";
 
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
@@ -28,7 +29,9 @@ class OrderSummary extends Component {
                 <p><strong>Total price: {this.props.price.toFixed(2)}$</strong></p>
                 <p>Continue to Checkout?</p>
                 <Button btnType='Danger' clicked={this.props.purchaseCanceled}>CANCEL</Button>
-                <Button btnType='Success' clicked={this.props.purchaseContinue}>CONTINUE</Button>
+                {/* <Link to="/checkout"> */}
+                    <Button btnType='Success' clicked={this.props.purchaseContinue}>CONTINUE</Button>
+                {/* </Link> */}
             </Aux>
         )
     }
