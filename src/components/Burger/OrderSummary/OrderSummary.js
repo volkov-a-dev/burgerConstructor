@@ -29,9 +29,7 @@ class OrderSummary extends Component {
                 <p><strong>Total price: {this.props.price.toFixed(2)}$</strong></p>
                 <p>Continue to Checkout?</p>
                 <Button btnType='Danger' clicked={this.props.purchaseCanceled}>CANCEL</Button>
-                {/* <Link to="/checkout"> */}
-                    <Button btnType='Success' clicked={this.props.purchaseContinue}>CONTINUE</Button>
-                {/* </Link> */}
+                <Button btnType='Success' clicked={this.props.purchaseContinue}>CONTINUE</Button>
             </Aux>
         )
     }

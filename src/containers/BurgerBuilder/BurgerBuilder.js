@@ -65,7 +65,7 @@ class BurgerBuilder extends Component {
         const priceAddition = INGREDIENT_PRICES[type];
         const oldPrice = this.state.totalPrice;
         const newPrice = oldPrice + priceAddition;
-
+        
         this.setState({
             totalPrice: newPrice,
             ingredients: updateIngredients
@@ -109,9 +109,9 @@ class BurgerBuilder extends Component {
         for (let i in this.state.ingredients) {
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
         }
+
         queryParams.push('price=' + this.state.totalPrice);
         const queryString = queryParams.join('&');
-        console.log(queryString)
 
         this.props.history.push({
             pathname: '/checkout',
@@ -127,6 +127,7 @@ class BurgerBuilder extends Component {
         for (let key in disableInfo) {
             disableInfo[key] = disableInfo[key] <= 0
         }
+
         let orderSummary = null;
         let burger = this.state.error ? <p style={{ textAlign: 'center' }}>Ingredients can't be loaded</p> : <Spinner />;
 
