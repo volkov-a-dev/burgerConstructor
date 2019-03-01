@@ -72,7 +72,7 @@ class ContactData extends Component {
                 elementType: 'email',
                 elementConfig: {
                     type: 'email',
-                    placeholder: 'Your name'
+                    placeholder: 'Your Email'
                 },
                 value: '',
                 validation: {
@@ -111,12 +111,11 @@ class ContactData extends Component {
             price: this.props.price,
             orderData: formData
         }
-
-        this.props.onOrderBurger(order);
+        this.props.onOrderBurger(order, this.props.token);
     }
 
     checkValidity (value, rules) {
-        let isValid = true;
+        // let isValid = true;
         
         // if (!rules) {
         //     return true
@@ -133,7 +132,35 @@ class ContactData extends Component {
         // }
 
         
-        return isValid
+        // return isValid
+        let isValid = true;
+        if (!rules) {
+            return true;
+        }
+        
+        if (rules.required) {
+            isValid = value.trim() !== '' && isValid;
+        }
+
+        if (rules.minLength) {
+            isValid = value.length >= rules.minLength && isValid
+        }
+
+        if (rules.maxLength) {
+            isValid = value.length <= rules.maxLength && isValid
+        }
+
+        if (rules.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        if (rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        return isValid;
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -187,7 +214,7 @@ class ContactData extends Component {
                     )
                 })}
                 <Button 
-                    disabled={!this.state.formIsValid}
+                    // disabled={!this.state.formIsValid}
                     btnType="Success" 
                     clicked={this.orderHandler}>Order</Button>
             </form>
@@ -209,15 +236,16 @@ class ContactData extends Component {
 const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.price,
-        loading: state.order.loading
+        price: state.burgerBuilder.totalPrice,
+        loading: state.order.loading,
+        token: state.auth.token
     }
 }
 
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
         
     }
 }

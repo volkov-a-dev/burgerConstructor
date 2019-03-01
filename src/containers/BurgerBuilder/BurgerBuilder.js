@@ -9,7 +9,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as burgerBuilderActions  from '../../store/actions/index';
+import * as actions  from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
     state = {
@@ -34,7 +34,12 @@ class BurgerBuilder extends Component {
     }
 
     purchaseHandler = () => {
-        this.setState({purchasing : true})
+        if (this.props.isAuthenticated) {
+            this.setState({purchasing : true})
+        } else {
+            this.props.history.push('/auth')
+        }
+        
     }
 
     purchaseCancelHandler = () => {
@@ -42,6 +47,7 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
+        this.props.onInitPurchase();
         this.props.history.push('/checkout')
     }
 
@@ -67,6 +73,7 @@ class BurgerBuilder extends Component {
                         disabled={disableInfo}
                         purchasable={this.updatePurchasableState(this.props.ings)}
                         price={this.props.price}
+                        isAuth={this.props.isAuthenticated}
                         ordered={this.purchaseHandler}
                     />
                 </Aux>
@@ -95,16 +102,21 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
-        onIngredientRemove: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
-        onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
+        onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
+        onIngredientRemove: (ingName) => dispatch(actions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(actions.initIngredients()),
+        onInitPurchase: () => dispatch(actions.purchaseInit())
+
     }
 }
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
