@@ -18,7 +18,7 @@ const sideDrawer = (props) => {
     return (
         <Aux>
             <Backdrop show={props.open} clicked={props.closed}/>
-            <div className={attachedClasses.join(' ')}>
+            <div className={attachedClasses.join(' ')} onClick={props.closed}>
                 {/* <DrawerToggle clicked={props.drawerToggleClicked}>Close</DrawerToggle> */}
                 <div className={classes.Logo}>
                     <Logo />
@@ -29,7 +29,6 @@ const sideDrawer = (props) => {
                 </nav>
             </div>
         </Aux> 
-       
     );
 };
 

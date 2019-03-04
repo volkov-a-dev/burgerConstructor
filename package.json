@@ -48,6 +48,7 @@
     "react-redux": "^6.0.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "react-test-render": "^1.1.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "resolve": "1.10.0",
@@ -123,5 +124,9 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0"
   }
 }
